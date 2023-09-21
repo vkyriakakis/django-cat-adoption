@@ -1,0 +1,50 @@
+body {
+  background-image: url('nazrin_dance.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; 
+}
+h1 {
+  color: blue;
+  font-family: Arial;
+  font-size: 300%;
+}
+p {
+  color: red;
+  font-family: courier;
+  font-size: 160%;
+  border: 2px solid yellow;
+  padding: 30px;
+  margin: 50px;
+  background-image: url('one_beer.jpg');
+}
+a:link, a:visited {
+  background-color: #f44336;
+  color: white;
+  padding: 15px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+table {
+  font-size: 160%;
+  color: yellow;
+}
+table, td, th {
+  border: solid yellow;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+}
+th:nth-child(even), td:nth-child(even) {
+  background-color: #D6EEEE;
+}
+tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+tr:hover {background-color: #D6EEEE;}
+
+ul {
+  list-style-type: square;
+}
