@@ -14,28 +14,33 @@
 <body>
 	{% include "adopt/navbar.html" %}
 
-	<div class="flex_container">
-		{% if cat_list %}
-		    {% for cat in cat_list %}
-	        	<figure>
-	        		<a href="{% url 'adopt:detail' cat.id %}">
-	        			<img src="{{ cat.image.url }}" alt="{{ cat.name }}" style="width:100%;height:100%;">
-	        		</a>
+	<h2>{{ cat.name }}</h2>
+	<img src="{{ cat.image.url }}" width=400px height=400px alt="{{ cat.name }}">
 
-	        		<figcaption>
-	        			"{{ cat.name }}, {{ cat.get_age_display }}, {{ cat.get_sex_display }}"
-	        		</figcaption>
-	        	</figure>
-		    {% endfor %}
-		{% else %}
-		    <p>No pets are available :(</p>
+	<p>
+		{{ cat.get_sex_display }}, {{ cat.get_age_display }}, {{ cat.get_color_display }}<br>
+
+		{% if cat.is_vaccinated %}
+			Vaccinated
+			<br>
 		{% endif %}
-	</div>
-	
+		
+		{% if cat.is_sterilized %}
+			Sterilized
+			<br>
+		{% endif %}
+		
+		{% if cat.is_house_trained %}
+			House-trained
+		{% endif %}
+	</p>
+
 	<footer>
 		<a href="https://www.freepik.com/free-vector/blank-white-notepaper-design_16397306.htm
 		#query=diary%20page&position=0&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik
 	</footer>
 </body>
+
+
 
 </html> 

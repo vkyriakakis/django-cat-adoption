@@ -1,50 +1,49 @@
 body {
-  background-image: url('nazrin_dance.gif');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-repeat: repeat;
   background-attachment: fixed; 
+  background-image: url("notebook_bg.jpg");
+  background-size: 20% 20%;
+  margin: 0px;
 }
+
 h1 {
   color: blue;
   font-family: Arial;
   font-size: 300%;
 }
-p {
-  color: red;
-  font-family: courier;
-  font-size: 160%;
-  border: 2px solid yellow;
-  padding: 30px;
-  margin: 50px;
-  background-image: url('one_beer.jpg');
-}
-a:link, a:visited {
-  background-color: #f44336;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-table {
-  font-size: 160%;
-  color: yellow;
-}
-table, td, th {
-  border: solid yellow;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 15px;
-}
-th:nth-child(even), td:nth-child(even) {
-  background-color: #D6EEEE;
-}
-tr:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-tr:hover {background-color: #D6EEEE;}
 
-ul {
-  list-style-type: square;
+nav a {
+  background-color: gray;
+  color: white;
+  float: left;
+}
+
+nav a {
+  background-color: gray;
+  color: white;
+  font-size: 160%;
+  padding: 20px;
+}
+
+nav a:hover {
+  background-color: lightgray;
+}
+
+.nav_container {
+  display: flex;
+  background-color: gray;
+  gap: 20px;
+}
+
+.flex_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+figure {
+  height: 300px;
+  box-sizing: border-box;
+  flex: 0 1 15%;
 }

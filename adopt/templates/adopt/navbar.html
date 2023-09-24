@@ -1,0 +1,26 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Pet Adoption Home</title>
+
+	{% load static %}
+	<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+	<link rel="stylesheet" href="{% static 'adopt/style.css' %}">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<header>
+		<h1>You can adopt cats here!</h1>
+	</header>
+
+	<nav class="nav_container">
+		<a href="{% url 'adopt:index' %}">Home</a>
+		<a href="">Search</a>
+		<a href="">Sign in</a>
+	</nav>
+</body>
+
+</html> 
