@@ -16,6 +16,10 @@ class Cat(models.Model):
         choices=Age.choices,
     )
     
+    age_translation = {}
+    for value, label in Age.choices:
+        age_translation[label] = value
+
     class Sex(models.TextChoices): 
         MALE = "M", _("Male")
         FEMALE = "F", _("Female")
@@ -24,6 +28,10 @@ class Cat(models.Model):
         max_length=1,
         choices=Sex.choices,
     )
+
+    sex_translation = {}
+    for value, label in Sex.choices:
+        sex_translation[label] = value
 
     class Color(models.TextChoices):
         BLACK = "BLK", _("Black")
@@ -39,6 +47,10 @@ class Cat(models.Model):
         choices=Color.choices,
     )
 
+    color_translation = {}
+    for value, label in Color.choices:
+        color_translation[label] = value
+
     image = models.ImageField(upload_to='adopt/images/cats')
 
     is_sterilized = models.BooleanField()
@@ -47,3 +59,12 @@ class Cat(models.Model):
 
     def __str__(self):
         return "{}, {} {}".format(self.name, self.get_sex_display(), self.get_age_display())
+
+    def get_internal_age(display_color):
+        return Cat.age_translation[display_color]
+
+    def get_internal_sex(display_color):
+        return Cat.sex_translation[display_color]
+
+    def get_internal_color(display_color):
+        return Cat.color_translation[display_color]

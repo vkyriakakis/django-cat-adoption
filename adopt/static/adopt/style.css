@@ -21,12 +21,18 @@ nav a {
 nav a {
   background-color: gray;
   color: white;
-  font-size: 160%;
+  font-size: 25pt;
   padding: 20px;
 }
 
 nav a:hover {
   background-color: lightgray;
+}
+
+.radio_container {
+  display: inline-flex;
+  font-size: 18pt;
+  align-items: center;
 }
 
 .nav_container {
@@ -40,6 +46,10 @@ nav a:hover {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.form_label {
+  font-size: 18pt;
 }
 
 figure {
