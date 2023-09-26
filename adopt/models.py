@@ -51,7 +51,7 @@ class Cat(models.Model):
     for value, label in Color.choices:
         color_translation[label] = value
 
-    image = models.ImageField(upload_to='adopt/images/cats')
+    image = models.ImageField(upload_to='adopt/images/cats', default='adopt/images/cats/default.jpg')
 
     is_sterilized = models.BooleanField()
     is_vaccinated = models.BooleanField()

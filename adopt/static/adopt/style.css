@@ -29,7 +29,7 @@ nav a:hover {
   background-color: lightgray;
 }
 
-.radio_container {
+.checkbox_container {
   display: inline-flex;
   font-size: 18pt;
   align-items: center;

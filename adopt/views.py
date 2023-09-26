@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.db.models import Q
 from django.utils import timezone
+from functools import reduce
 
 from .models import Cat
 
@@ -35,19 +37,44 @@ class SearchResultsView(generic.ListView):
     template_name = "adopt/cat_display.html"
 
     def get_queryset(self):
-        age = Cat.get_internal_age(self.request.GET.get("age"))
-        sex = Cat.get_internal_sex(self.request.GET.get("sex"))
-        color = Cat.get_internal_color(self.request.GET.get("color"))
+        ages = list(map(Cat.get_internal_age, self.request.GET.getlist("age")))
+        sexes = list(map(Cat.get_internal_sex, self.request.GET.getlist("sex")))
+        colors = list(map(Cat.get_internal_color, self.request.GET.getlist("color")))
 
-        is_vaccinated = True if self.request.GET.get("vaccinated") == "true" else False 
-        is_house_trained = True if self.request.GET.get("house_trained") == "true" else False 
-        is_sterilized = True if self.request.GET.get("sterilized") == "true" else False 
+        is_vaccinated = self.request.GET.get("vaccinated") 
+        is_house_trained = self.request.GET.get("house_trained")
+        is_sterilized = self.request.GET.get("sterilized")
 
-        object_list = Cat.objects.filter(age=age) \
-                                 .filter(sex=sex) \
-                                 .filter(color=color) \
-                                 .filter(is_vaccinated=is_vaccinated) \
-                                 .filter(is_house_trained=is_house_trained) \
-                                 .filter(is_sterilized=is_sterilized)
+        object_list = Cat.objects
 
-        return object_list
+        # Don't apply a multiple choice filter if no choices or all choices are selected
+        if ages and len(ages) != len(Cat.Age.values):
+            # Compose an OR expression because many values might be provided for that field
+            ages_q = [Q(age=age) for age in ages]
+            ages_or = ages_q[0]
+            for age_q in ages_q[1:]:
+                ages_or |= age_q
+
+            object_list = object_list.filter(ages_or)
+
+        if sexes and len(sexes) != len(Cat.Sex.values):
+            sexes_q = [Q(sex=sex) for sex in sexes]
+            sexes_or = sexes_q[0]
+            for sex_q in sexes_q[1:]:
+                sexes_or |= sex_q
+                
+            object_list = object_list.filter(sexes_or)
+
+        if colors:
+            object_list = object_list.filter(color=colors)
+
+        if is_vaccinated == "true":
+            object_list = object_list.filter(is_vaccinated=True)
+
+        if is_house_trained == "true":
+            object_list = object_list.filter(is_house_trained=True)
+
+        if is_sterilized == "true":
+            object_list = object_list.filter(is_sterilized=True)
+
+        return object_list.all()
