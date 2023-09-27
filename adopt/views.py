@@ -31,7 +31,6 @@ def search(request):
 
     return render(request, "adopt/search.html", context)
 
-
 class SearchResultsView(generic.ListView):
     model = Cat
     template_name = "adopt/cat_display.html"
@@ -65,8 +64,13 @@ class SearchResultsView(generic.ListView):
                 
             object_list = object_list.filter(sexes_or)
 
-        if colors:
-            object_list = object_list.filter(color=colors)
+        if colors and len(colors) != len(Cat.Color.values):
+            colors_q = [Q(color=color) for color in colors]
+            colors_or = colors_q[0]
+            for color_q in colors_q[1:]:
+                colors_or |= color_q
+                
+            object_list = object_list.filter(colors_or)
 
         if is_vaccinated == "true":
             object_list = object_list.filter(is_vaccinated=True)
