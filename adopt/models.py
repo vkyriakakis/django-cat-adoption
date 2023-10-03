@@ -1,3 +1,15 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
-# Create your models here.
+from cats.models import Cat 
+
+class AdoptionRequest(models.Model):
+    datetime = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} wants to adopt {}!".format(self.user, self.cat.name)

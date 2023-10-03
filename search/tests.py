@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Cat
+from cats.models import Cat
 
 def create_cat(name, age, sex, color, is_vaccinated, is_house_trained, is_sterilized):
 	"""

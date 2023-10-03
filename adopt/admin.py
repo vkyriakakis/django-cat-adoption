@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import AdoptionRequest
+
+admin.site.register(AdoptionRequest)
