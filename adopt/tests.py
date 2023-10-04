@@ -19,7 +19,7 @@ def create_adoption_request(cat_id, user_id):
 	"""
 	return AdoptionRequest.objects.create(cat_id=cat_id, user_id=user_id)
 
-def init_database(user1_empty=True):
+def init_database(user1_empty=True, req_rejected_test=False):
 	"""
 	Initializes the test database and returns a list containing the objects created
 	"""
@@ -44,6 +44,10 @@ def init_database(user1_empty=True):
 	# If the appropriate setting is used, add a request to user1 as well
 	if not user1_empty:
 		create_adoption_request(cat3.id, user1.id)
+
+	if req_rejected_test:
+		req3 = create_adoption_request(cat2.id, user1.id)
+		return req1, req2, req3
 
 	return req1, req2
 
@@ -226,3 +230,37 @@ class DeleteAdoptionViewTest(TestCase):
 
 		self.assertRedirects(response, reverse("adopt:my_adoptions"))
 		self.assertFalse(AdoptionRequest.objects.filter(id=2).exists())
+
+class AdoptionApprovedSignalsTest(TestCase):
+	def test_cat_adopted_when_request_approved(self):
+		"""
+		When an adoption request is approved, the corresponding
+		cat should be marked as adopted
+		"""
+		req1, req2 = init_database()
+
+		self.assertFalse(req1.cat.is_adopted)
+
+		req1.status = AdoptionRequest.Status.APPROVED
+		req1.save()
+
+		self.assertTrue(req1.cat.is_adopted)
+
+	def test_other_requests_rejected_when_request_approved(self):
+		"""
+		When an adoption request is approved, all other requests for
+		that cat should be rejeceted
+		"""
+		req1, _, req3 = init_database(req_rejected_test=True)
+
+		self.assertTrue(req1.status == AdoptionRequest.Status.PENDING)
+		self.assertTrue(req3.status == AdoptionRequest.Status.PENDING)
+
+		req1.status = AdoptionRequest.Status.APPROVED
+		req1.save()
+
+		# Fetch the updated req3
+		req3 = AdoptionRequest.objects.get(id=req3.id)
+
+		self.assertTrue(req1.status == AdoptionRequest.Status.APPROVED)
+		self.assertTrue(req3.status == AdoptionRequest.Status.REJECTED)

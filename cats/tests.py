@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 
 from cats.models import Cat
 
-def create_cat(name, age, sex, color, is_vaccinated, is_house_trained, is_sterilized):
+def create_cat(name, age, sex, color, is_vaccinated, is_house_trained, is_sterilized, is_adopted=False):
 	"""
 	Creates a cat in the database
 	"""
 	return Cat.objects.create(name=name, age=age, sex=sex, color=color, \
 							  is_vaccinated=is_vaccinated, is_house_trained=is_house_trained, \
-							  is_sterilized=is_sterilized)
+							  is_sterilized=is_sterilized, is_adopted=is_adopted)
 
 def init_database():
 	"""
@@ -20,13 +20,12 @@ def init_database():
 	cat2 = create_cat(name="Magous", age="S", sex="F", color="BLK", is_vaccinated=False, is_house_trained=True, is_sterilized=True)
 	cat3 = create_cat(name="Migous", age="K", sex="F", color="BRN", is_vaccinated=True, is_house_trained=False, is_sterilized=False)
 	cat4 = create_cat(name="Mugous", age="A", sex="M", color="ORA", is_vaccinated=False, is_house_trained=True, is_sterilized=False)
+	cat5 = create_cat(name="Mugous", age="A", sex="M", color="ORA", is_vaccinated=False, is_house_trained=True, is_sterilized=False, is_adopted=True)
 
 	# Initialize the test user
 	user = User.objects.create(username='testuser')
 	user.set_password('12345')
 	user.save()
-
-	return [cat1, cat2, cat3, cat4]
 
 # Create your tests here.
 class DetailsViewTests(TestCase):
@@ -36,7 +35,7 @@ class DetailsViewTests(TestCase):
 		"""
 		init_database()
 
-		response = self.client.get(reverse("cats:detail", kwargs={'pk':5}))
+		response = self.client.get(reverse("cats:detail", kwargs={'pk':6}))
 		self.assertEqual(response.status_code, 404)
 
 	def test_cat_displays_correctly(self):
@@ -87,3 +86,15 @@ class DetailsViewTests(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertNotContains(response, "You need to login before requesting to adopt a cat!")
 		self.assertContains(response, "<input type=\"submit\" value=\"Adopt\">")
+
+	def test_adopted_cat_not_found(self):
+		"""
+		If a cat has been already adopted, it should not display.
+		"""
+		init_database()
+
+		self.client.login(username="testuser", password="12345")
+
+		response = self.client.get(reverse("cats:detail", kwargs={'pk':5}))
+
+		self.assertEqual(response.status_code, 404)
