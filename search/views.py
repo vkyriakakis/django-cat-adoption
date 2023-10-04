@@ -65,4 +65,7 @@ class SearchResultsView(generic.ListView):
         if is_sterilized == "true":
             object_list = object_list.filter(is_sterilized=True)
 
+        # Don't display cats that were already adopted
+        object_list = object_list.exclude(is_adopted=True)
+
         return object_list.all()

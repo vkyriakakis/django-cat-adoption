@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'cats.apps.CatsConfig',
     'adopt.apps.AdoptConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [

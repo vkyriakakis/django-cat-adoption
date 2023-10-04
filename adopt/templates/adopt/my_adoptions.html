@@ -22,6 +22,7 @@
 					<tr>
 						<th>Cat</th>
 						<th>Date</th>
+						<th>Status</th>
 						<th>Delete?</th>
 					</tr>
 				</thead>
@@ -31,6 +32,7 @@
 						<tr>
 							<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
 							<td>{{ request.datetime }}</td>
+							<td>{{ request.get_status_display }}</td>
 							<td><input type="checkbox" id="{{ request.id }}" name="to_delete" value="{{ request.id }}"></td>
 						</tr>
 					{% endfor %}

@@ -6,7 +6,13 @@ from cats.models import Cat
 
 class AdoptionRequest(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    is_approved = models.BooleanField(default=False)
+    
+    class Status(models.IntegerChoices):
+        PENDING = 1, _("Pending")
+        APPROVED = 2, _("Approved")
+        REJECTED = 3, _("Rejected")
+
+    status = models.IntegerField(default=Status.PENDING, choices=Status.choices)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cat = models.ForeignKey(Cat, on_delete=models.CASCADE)

@@ -57,6 +57,9 @@ class Cat(models.Model):
     is_vaccinated = models.BooleanField()
     is_house_trained = models.BooleanField()
 
+    # Set to True when an adoption request for this cat is approved
+    is_adopted = models.BooleanField(default=False)
+
     def __str__(self):
         return "{}, {} {}".format(self.name, self.get_sex_display(), self.get_age_display())
 

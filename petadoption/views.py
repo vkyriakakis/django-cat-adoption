@@ -6,6 +6,5 @@ class IndexView(generic.ListView):
     model = Cat
     template_name = "index.html"
 
-    # def get_queryset(self):
-    #     """Return the last five published questions."""
-    #     return Question.objects.all()[:9]
+    def get_queryset(self):
+        return Cat.objects.exclude(is_adopted=True).all()

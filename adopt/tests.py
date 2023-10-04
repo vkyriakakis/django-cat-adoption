@@ -158,7 +158,7 @@ class DeleteAdoptionViewTest(TestCase):
 		init_database()
 
 		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "2"})
-		print(reverse("login") + "?next=" + reverse("adopt:delete_adoption") + "?to_delete=2")
+
 		self.assertRedirects(response, reverse("login") + "?next=" + reverse("adopt:delete_adoption"))
 
 	def test_get_instead_of_post(self):

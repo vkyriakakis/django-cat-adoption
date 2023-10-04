@@ -8,3 +8,6 @@ from .models import Cat
 class DetailView(generic.DetailView):
     model = Cat
     template_name = "cats/detail.html"
+
+    def get_queryset(self):
+        return Cat.objects.exclude(is_adopted=True).all()
