@@ -1,61 +1,35 @@
- <!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-	<title>Pet Adoption Home</title>
+{% block content %}
 
-	{% load static %}
-	<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-	<link rel="stylesheet" href="{% static 'search/style.css' %}">
+<h2>{{ cat.name }}</h2>
+<img src="{{ cat.image.url }}" width=400px height=400px alt="{{ cat.name }}">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<p>
+	{{ cat.get_sex_display }}, {{ cat.get_age_display }}, {{ cat.get_color_display }}<br>
 
-<body>
-	{% include "navbar.html" %}
-
-	<h2>{{ cat.name }}</h2>
-	<img src="{{ cat.image.url }}" width=400px height=400px alt="{{ cat.name }}">
-
-	<p>
-		{{ cat.get_sex_display }}, {{ cat.get_age_display }}, {{ cat.get_color_display }}<br>
-
-		{% if cat.is_vaccinated %}
-			Vaccinated
-			<br>
-		{% endif %}
-		
-		{% if cat.is_sterilized %}
-			Sterilized
-			<br>
-		{% endif %}
-		
-		{% if cat.is_house_trained %}
-			House-trained
-		{% endif %}
-	</p>
-
-	{% if user.is_authenticated %}
-		{% if messages %}
-			<ul class="messages">
-			    {% for message in messages %}
-			    	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-			    {% endfor %}
-			</ul>
-		{% endif %}
-
-		<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
-			{% csrf_token %}
-			<input type="submit" value="Adopt">
-		</form>
-	{% else %}
-		<p style="color:red;">You need to login before requesting to adopt a cat!</p>
+	{% if cat.is_vaccinated %}
+		Vaccinated
+		<br>
 	{% endif %}
+	
+	{% if cat.is_sterilized %}
+		Sterilized
+		<br>
+	{% endif %}
+	
+	{% if cat.is_house_trained %}
+		House-trained
+	{% endif %}
+</p>
 
-	<footer>
-		<a href="https://www.freepik.com/free-vector/blank-white-notepaper-design_16397306.htm
-		#query=diary%20page&position=0&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik
-	</footer>
-</body>
+{% if user.is_authenticated %}
+	<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Adopt">
+	</form>
+{% else %}
+	<p style="color:red;">You need to login before requesting to adopt a cat!</p>
+{% endif %}
 
-</html> 
+{% endblock %}

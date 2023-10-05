@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>{% block title %}Pet Adoption Home{% endblock %}</title>
+
+	{% load static %}
+	<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<header>
+	{% block logo %}<h1>You can adopt cats here!</h1>{% endblock %}
+	</header>
+
+	<nav class="nav_container">
+	{% block navbar %}
+		<a href="{% url 'index' %}">Home</a>
+		<a href="{% url 'search:search' %}">Search</a>
+
+		{% if user.is_authenticated %}
+			<a href="{% url 'adopt:my_adoptions' %}">My Adoptions</a>
+			<a href="{% url 'logout' %}?next={{ request.path }}">Log out</a>
+		{% else %}
+			<a href="{% url 'login' %}?next={{ request.path }}">Sign in</a>
+		{% endif %}
+	{% endblock %}
+	</nav>
+
+	{% block content %}
+	{% endblock %}
+
+	{% block messages %}
+
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	
+	{% endblock %}
+	
+	<footer>
+	{% block footer %}
+		<a href="https://www.freepik.com/free-vector/blank-white-notepaper-design_16397306.htm
+		#query=diary%20page&position=0&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik
+	{% endblock %}
+	</footer>
+
+	<script>
+	{% block scripts %}
+	{% endblock %}
+	</script>
+</body>
+
+</html> 

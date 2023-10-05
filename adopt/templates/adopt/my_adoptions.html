@@ -1,105 +1,87 @@
- <!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-	<title>Pet Adoption Home</title>
+{% block content %}
 
-	{% load static %}
-	<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-	<link rel="stylesheet" href="{% static 'search/style.css' %}">
+{% if has_requests %}
+	{% if approved_list %}
+		<h3>Approved requests</h3>
+		<hr>
+		<table>
+			<thead>
+				<tr>
+					<th>Cat</th>
+					<th>Date</th>
+					<th>Certificate</th>
+				</tr>
+			</thead>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-	{% include "navbar.html" %}
-
-	{% if has_requests %}
-		{% if approved_list %}
-			<h3>Approved requests</h3>
-			<hr>
-			<table>
-				<thead>
+			<tbody>
+				{% for request in approved_list %}
 					<tr>
-						<th>Cat</th>
-						<th>Date</th>
-						<th>Certificate</th>
+						<td>{{ request.cat.name }}</td>
+						<td>{{ request.datetime }}</td>
+						<td>PLACEHOLDER</td>
 					</tr>
-				</thead>
-
-				<tbody>
-					{% for request in approved_list %}
-						<tr>
-							<td>{{ request.cat.name }}</td>
-							<td>{{ request.datetime }}</td>
-							<td>PLACEHOLDER</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			</form>
-		{% endif %}
-
-		{% if pending_list %}
-			<h3>Pending requests</h3>
-			<hr>
-			<form action="{% url 'adopt:delete_adoption' %}" method="post">
-				{% csrf_token %}
-				<table>
-					<thead>
-						<tr>
-							<th>Cat</th>
-							<th>Date</th>
-							<th>Withdraw?</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						{% for request in pending_list %}
-							<tr>
-								<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
-								<td>{{ request.datetime }}</td>
-								<td><input type="checkbox" id="{{ request.id }}" name="to_delete" value="{{ request.id }}"></td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-
-				<input type="submit" value="Withdraw">
-			</form>
-		{% endif %}
-
-		{% if rejected_list %}
-			<h3>Rejected requests</h3>
-			<hr>
-			<table>
-				<thead>
-					<tr>
-						<th>Cat</th>
-						<th>Date</th>
-						<th>Reason</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{% for request in rejected_list %}
-						<tr>
-							<td>{{ request.cat.name }}</td>
-							<td>{{ request.datetime }}</td>
-							<td>{{ request.reason }}</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endif %}
-	{% else %}
-		<p>You haven't made any adoption requests!</p>
+				{% endfor %}
+			</tbody>
+		</table>
+		</form>
 	{% endif %}
 
-	<footer>
-		<a href="https://www.freepik.com/free-vector/blank-white-notepaper-design_16397306.htm
-		#query=diary%20page&position=0&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik
-	</footer>
-</body>
+	{% if pending_list %}
+		<h3>Pending requests</h3>
+		<hr>
+		<form action="{% url 'adopt:delete_adoption' %}" method="post">
+			{% csrf_token %}
+			<table>
+				<thead>
+					<tr>
+						<th>Cat</th>
+						<th>Date</th>
+						<th>Withdraw?</th>
+					</tr>
+				</thead>
 
-</html> 
+				<tbody>
+					{% for request in pending_list %}
+						<tr>
+							<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
+							<td>{{ request.datetime }}</td>
+							<td><input type="checkbox" id="{{ request.id }}" name="to_delete" value="{{ request.id }}"></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<input type="submit" value="Withdraw">
+		</form>
+	{% endif %}
+
+	{% if rejected_list %}
+		<h3>Rejected requests</h3>
+		<hr>
+		<table>
+			<thead>
+				<tr>
+					<th>Cat</th>
+					<th>Date</th>
+					<th>Reason</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for request in rejected_list %}
+					<tr>
+						<td>{{ request.cat.name }}</td>
+						<td>{{ request.datetime }}</td>
+						<td>{{ request.reason }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% else %}
+	<p>You haven't made any adoption requests!</p>
+{% endif %}
+
+{% endblock %}
