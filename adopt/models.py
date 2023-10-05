@@ -14,6 +14,9 @@ class AdoptionRequest(models.Model):
 
     status = models.IntegerField(default=Status.PENDING, choices=Status.choices)
 
+    # For rejected requests
+    reason = models.CharField(max_length=100, blank=True, null=True)
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
 
