@@ -1,22 +1,28 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 from django.core.exceptions import PermissionDenied, BadRequest
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import AdoptionRequest
 from cats.models import Cat
 
-class MyAdoptionsView(LoginRequiredMixin, generic.ListView):
-    model = AdoptionRequest
-    template_name = "adopt/my_adoptions.html"
-    context_object_name = 'request_list'
+@login_required
+def my_adoptions(request):
+    context = {}
 
-    # Only the adoption requests which correspond to this user should be shown
-    def get_queryset(self):
-        return AdoptionRequest.objects.filter(user__id=self.request.user.id) 
+    # Display only the adoption request for this user
+    user_adoptions = AdoptionRequest.objects.filter(user=request.user)
+
+    # Separate the adoption requests in three lists depending on the
+    # status, so that they can be displayed separately
+    context["has_requests"] = user_adoptions.exists()
+    context["approved_list"] = user_adoptions.filter(status=AdoptionRequest.Status.APPROVED).all()
+    context["pending_list"] = user_adoptions.filter(status=AdoptionRequest.Status.PENDING).all()
+    context["rejected_list"] = user_adoptions.filter(status=AdoptionRequest.Status.REJECTED).all()
+
+    return render(request, "adopt/my_adoptions.html", context)
 
 @login_required
 def request_adoption(request, cat_id):

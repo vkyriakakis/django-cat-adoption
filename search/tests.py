@@ -3,24 +3,30 @@ from django.urls import reverse
 
 from cats.models import Cat
 
-def create_cat(name, age, sex, color, is_vaccinated, is_house_trained, is_sterilized):
+def create_cat(name, age, sex, color, is_vaccinated, is_house_trained, is_sterilized, is_adopted=False):
 	"""
 	Creates a cat in the database
 	"""
 	return Cat.objects.create(name=name, age=age, sex=sex, color=color, \
 							  is_vaccinated=is_vaccinated, is_house_trained=is_house_trained, \
-							  is_sterilized=is_sterilized)
+							  is_sterilized=is_sterilized, is_adopted=is_adopted)
 
 def init_database():
 	"""
 	Initializes the test database and returns a list containing the objects created
 	"""
-	cat1 = create_cat(name="Mogus", age="Y", sex="M", color="WHT", is_vaccinated=True, is_house_trained=False, is_sterilized=True)
-	cat2 = create_cat(name="Magous", age="S", sex="F", color="BLK", is_vaccinated=False, is_house_trained=True, is_sterilized=True)
-	cat3 = create_cat(name="Migous", age="K", sex="F", color="BRN", is_vaccinated=True, is_house_trained=False, is_sterilized=False)
-	cat4 = create_cat(name="Mugous", age="A", sex="M", color="ORA", is_vaccinated=False, is_house_trained=True, is_sterilized=False)
+	cat1 = create_cat(name="Mogus", age="Y", sex="M", color="WHT", is_vaccinated=True, \
+		              is_house_trained=False, is_sterilized=True)
+	cat2 = create_cat(name="Magous", age="S", sex="F", color="BLK", is_vaccinated=False, \
+		              is_house_trained=True, is_sterilized=True)
+	cat3 = create_cat(name="Migous", age="K", sex="F", color="BRN", is_vaccinated=True, \
+		              is_house_trained=False, is_sterilized=False)
+	cat4 = create_cat(name="Mugous", age="A", sex="M", color="ORA", is_vaccinated=False, \
+		              is_house_trained=True, is_sterilized=False)
+	cat5 = create_cat(name="Megous", age="S", sex="F", color="BLK", is_vaccinated=False, \
+		              is_house_trained=True, is_sterilized=False, is_adopted=True)
 
-	return [cat1, cat2, cat3, cat4]
+	return [cat1, cat2, cat3, cat4, cat5]
 
 # Create your tests here.
 class SearchResultsViewTests(TestCase):
@@ -125,9 +131,12 @@ class SearchResultsViewTests(TestCase):
 
 		response = self.client.get(reverse("search:results") + "?sex=Male&sex=Female")
 
+
+		# The last cat is excluded because it is adopted and should
+		# not appear even if no conditions are set
 		self.assertQuerySetEqual(
             response.context["cat_list"],
-            cat_list,
+            cat_list[:-1],
             ordered=False
         )
 
@@ -197,7 +206,7 @@ class SearchResultsViewTests(TestCase):
 
 		self.assertQuerySetEqual(
             response.context["cat_list"],
-            cat_list,
+            cat_list[:-1],
             ordered=False
         )
 
@@ -212,7 +221,7 @@ class SearchResultsViewTests(TestCase):
 
 		self.assertQuerySetEqual(
             response.context["cat_list"],
-            cat_list,
+            cat_list[:-1],
             ordered=False
         )
 
@@ -272,7 +281,7 @@ class SearchResultsViewTests(TestCase):
 
 		self.assertQuerySetEqual(
             response.context["cat_list"],
-            cat_list,
+            cat_list[:-1],
             ordered=False
         )
 

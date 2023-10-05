@@ -19,7 +19,7 @@ def create_adoption_request(cat_id, user_id):
 	"""
 	return AdoptionRequest.objects.create(cat_id=cat_id, user_id=user_id)
 
-def init_database(user1_empty=True, req_rejected_test=False):
+def init_database(user1_empty=True, req_rejected_test=False, req_categories_test=False):
 	"""
 	Initializes the test database and returns a list containing the objects created
 	"""
@@ -49,6 +49,17 @@ def init_database(user1_empty=True, req_rejected_test=False):
 		req3 = create_adoption_request(cat2.id, user1.id)
 		return req1, req2, req3
 
+	if req_categories_test:
+		req3 = create_adoption_request(cat3.id, user2.id)
+
+		req2.status = AdoptionRequest.Status.REJECTED
+		req2.save()
+
+		req3.status = AdoptionRequest.Status.APPROVED
+		req3.save()
+
+		return req1, req2, req3
+
 	return req1, req2
 
 
@@ -66,6 +77,7 @@ class MyAdoptionsViewTest(TestCase):
 	def test_no_adoptions(self):
 		"""
 		Tests the case when a user has logged in, but hasn't requested to adopt any cats.
+		Also tests that the user sees only their adoptions.
 		"""
 		init_database()
 
@@ -74,26 +86,37 @@ class MyAdoptionsViewTest(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "You haven't made any adoption requests!")
-		self.assertQuerySetEqual(
-            response.context["request_list"],
-            [],
-            ordered=False
-        )
+		self.assertFalse(response.context["has_requests"])
 
 	def test_some_adoptions(self):
 		"""
 		Tests the case when a user has logged in, and has requested to adopt some cats.
+		Some of the requests are pending, some approved, some rejected.
 		"""
-		req1, req2 = init_database()
+		req1, req2, req3 = init_database(req_categories_test=True)
 
 		self.client.login(username="testuser2", password="67890")
 		response = self.client.get(reverse("adopt:my_adoptions"))
 
+		self.assertTrue(response.context["has_requests"])
+
 		self.assertQuerySetEqual(
-            response.context["request_list"],
-            [req1, req2],
+            response.context["pending_list"],
+            [req1],
             ordered=False
-        )
+		)
+
+		self.assertQuerySetEqual(
+            response.context["rejected_list"],
+            [req2],
+            ordered=False
+		)
+
+		self.assertQuerySetEqual(
+            response.context["approved_list"],
+            [req3],
+            ordered=False
+		)
 
 class RequestAdoptionViewTest(TestCase):
 	def test_unauthorized_user(self):

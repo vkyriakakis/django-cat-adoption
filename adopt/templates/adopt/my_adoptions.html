@@ -14,33 +14,82 @@
 <body>
 	{% include "navbar.html" %}
 
-	{% if request_list %}
-		<form action="{% url 'adopt:delete_adoption' %}" method="post">
-			{% csrf_token %}
+	{% if has_requests %}
+		{% if approved_list %}
+			<h3>Approved requests</h3>
+			<hr>
 			<table>
 				<thead>
 					<tr>
 						<th>Cat</th>
 						<th>Date</th>
-						<th>Status</th>
-						<th>Delete?</th>
+						<th>Certificate</th>
 					</tr>
 				</thead>
 
 				<tbody>
-					{% for request in request_list %}
+					{% for request in approved_list %}
 						<tr>
-							<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
+							<td>{{ request.cat.name }}</td>
 							<td>{{ request.datetime }}</td>
-							<td>{{ request.get_status_display }}</td>
-							<td><input type="checkbox" id="{{ request.id }}" name="to_delete" value="{{ request.id }}"></td>
+							<td>PLACEHOLDER</td>
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
+			</form>
+		{% endif %}
 
-			<input type="submit" value="Delete">
-		</form>
+		{% if pending_list %}
+			<h3>Pending requests</h3>
+			<hr>
+			<form action="{% url 'adopt:delete_adoption' %}" method="post">
+				{% csrf_token %}
+				<table>
+					<thead>
+						<tr>
+							<th>Cat</th>
+							<th>Date</th>
+							<th>Withdraw?</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for request in pending_list %}
+							<tr>
+								<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
+								<td>{{ request.datetime }}</td>
+								<td><input type="checkbox" id="{{ request.id }}" name="to_delete" value="{{ request.id }}"></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+				<input type="submit" value="Withdraw">
+			</form>
+		{% endif %}
+
+		{% if rejected_list %}
+			<h3>Rejected requests</h3>
+			<hr>
+			<table>
+				<thead>
+					<tr>
+						<th>Cat</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for request in rejected_list %}
+						<tr>
+							<td>{{ request.cat.name }}</td>
+							<td>{{ request.datetime }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
 	{% else %}
 		<p>You haven't made any adoption requests!</p>
 	{% endif %}
