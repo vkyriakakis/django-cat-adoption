@@ -2,49 +2,51 @@
 
 {% block content %}
 
-<form>
-	<label class="form_label">Age:</label>
-	<span class="checkbox_container">
-		{% for age in age_choices %}
-			<input type="checkbox" id="{{ age }}" name="age" value="{{ age }}" onchange="fetch_results()">
-			<label for="{{ age }}">{{ age }}</label>
-		{% endfor %}
-	</span>
-	<button type="button" onclick="set_all_checkboxes_by_name('age')">All</button>
-	<button type="button" onclick="reset_checkboxes_by_name('age')">Reset</button>
-	<br>
+<div id="search_container">
+	<form>
+		<label>Age:</label>
+		<span class="checkbox_container">
+			{% for age in age_choices %}
+				<input type="checkbox" id="{{ age }}" name="age" value="{{ age }}" onchange="fetch_results()">
+				<label for="{{ age }}">{{ age }}</label>
+			{% endfor %}
+		</span>
+		<button type="button" onclick="set_all_checkboxes_by_name('age')">All</button>
+		<button type="button" onclick="reset_checkboxes_by_name('age')">Reset</button>
+		<br>
 
-	<label class="form_label">Sex:</label>
-	<span class="checkbox_container">
-		{% for sex in sex_choices %}
-			<input type="checkbox" id="{{ sex }}" name="sex" value="{{ sex }}" onchange="fetch_results()">
-			<label for="{{ sex }}">{{ sex }}</label>
-		{% endfor %}
-	</span>
-	<button type="button" onclick="set_all_checkboxes_by_name('sex')">All</button>
-	<button type="button" onclick="reset_checkboxes_by_name('sex')">Reset</button>
-	<br>
+		<label>Sex:</label>
+		<span class="checkbox_container">
+			{% for sex in sex_choices %}
+				<input type="checkbox" id="{{ sex }}" name="sex" value="{{ sex }}" onchange="fetch_results()">
+				<label for="{{ sex }}">{{ sex }}</label>
+			{% endfor %}
+		</span>
+		<button type="button" onclick="set_all_checkboxes_by_name('sex')">All</button>
+		<button type="button" onclick="reset_checkboxes_by_name('sex')">Reset</button>
+		<br>
 
-  	<label class="form_label">Color:</label>
-  	<span class="checkbox_container">
-		{% for color in color_choices %}
-			<input type="checkbox" id="{{ color }}" name="color" value="{{ color }}" onchange="fetch_results()">
-			<label for="{{ color }}">{{ color }}</label>
-		{% endfor %}
-	</span>
-	<button type="button" onclick="set_all_checkboxes_by_name('color')">All</button>
-	<button type="button" onclick="reset_checkboxes_by_name('color')">Reset</button>
-	<br>
+	  	<label>Color:</label>
+	  	<span class="checkbox_container">
+			{% for color in color_choices %}
+				<input type="checkbox" id="{{ color }}" name="color" value="{{ color }}" onchange="fetch_results()">
+				<label for="{{ color }}">{{ color }}</label>
+			{% endfor %}
+		</span>
+		<button type="button" onclick="set_all_checkboxes_by_name('color')">All</button>
+		<button type="button" onclick="reset_checkboxes_by_name('color')">Reset</button>
+		<br>
 
-	<input type="checkbox" id="vaccinated" name="vaccinated" onchange="fetch_results()">
-	<label class="form_label" for="vaccinated">Must be vaccinated</label><br>
+		<input type="checkbox" id="vaccinated" name="vaccinated" onchange="fetch_results()">
+		<label for="vaccinated">Must be vaccinated</label><br>
 
-	<input type="checkbox" id="house_trained" name="house_trained" onchange="fetch_results()">
-	<label class="form_label" for="house_trained">Must be house-trained</label><br>
+		<input type="checkbox" id="house_trained" name="house_trained" onchange="fetch_results()">
+		<label for="house_trained">Must be house-trained</label><br>
 
-	<input type="checkbox" id="sterilized" name="sterilized" onchange="fetch_results()">
-	<label class="form_label" for="sterilized">Must be sterilized</label><br><br>
-</form>
+		<input type="checkbox" id="sterilized" name="sterilized" onchange="fetch_results()">
+		<label for="sterilized">Must be sterilized</label><br><br>
+	</form>
+</div>
 
 <!-- Empty section that will be filled by the Javascript -->
 <div id="results"></div>

@@ -2,34 +2,53 @@
 
 {% block content %}
 
-<h2>{{ cat.name }}</h2>
-<img src="{{ cat.image.url }}" width=400px height=400px alt="{{ cat.name }}">
+<div class="details_container">
+	<img src="{{ cat.image.url }}" width=400px height=400px alt="{{ cat.name }}">
 
-<p>
-	{{ cat.get_sex_display }}, {{ cat.get_age_display }}, {{ cat.get_color_display }}<br>
+	<div>
+		<h2>{{ cat.name }}</h2>
 
-	{% if cat.is_vaccinated %}
-		Vaccinated
-		<br>
-	{% endif %}
-	
-	{% if cat.is_sterilized %}
-		Sterilized
-		<br>
-	{% endif %}
-	
-	{% if cat.is_house_trained %}
-		House-trained
-	{% endif %}
-</p>
+		<p>
+			Sex: {{ cat.get_sex_display }}<br> 
+			Age: {{ cat.get_age_display }}<br>
+			Color: {{ cat.get_color_display }}<br>
+		</p>
 
-{% if user.is_authenticated %}
-	<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
-		{% csrf_token %}
-		<input type="submit" value="Adopt">
-	</form>
-{% else %}
-	<p style="color:red;">You need to login before requesting to adopt a cat!</p>
-{% endif %}
+		<p>
+			Vaccinated:
+			{% if cat.is_vaccinated %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+			
+			Sterilized:
+			{% if cat.is_sterilized %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+
+			House-trained:
+			{% if cat.is_house_trained %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+		</p>
+
+		{% if user.is_authenticated %}
+			<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
+				{% csrf_token %}
+				<input type="submit" value="Adopt">
+			</form>
+		{% else %}
+			<p style="color:red;">You need to login before requesting to adopt a cat!</p>
+		{% endif %}
+	</div>
+</div>
 
 {% endblock %}

@@ -3,30 +3,65 @@ body {
   background-attachment: fixed; 
   background-image: url(images/notebook_bg.jpg);
   background-size: 20% 20%;
+
+  min-height: 100vh;
   margin: 0px;
+
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 320px auto;
+  grid-template-rows: auto 1fr auto; 
+  grid-template-areas: 
+                "header nav"
+                "main main"
+                "footer footer";
+}
+
+header {
+  grid-area: header;
+}
+
+main {
+  grid-area: main;
 }
 
 h1 {
-  color: blue;
   font-family: Arial;
   font-size: 300%;
 }
 
-nav a {
-  background-color: gray;
-  color: white;
-  float: left;
+nav {
+  grid-area: nav;
+
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 nav a {
-  background-color: gray;
   color: white;
-  font-size: 25pt;
+  font-size: 18pt;
+  background-color: gray;
+  border-radius: 15%;
+
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 nav a:hover {
   background-color: lightgray;
+}
+
+footer {
+  grid-area: footer;
+
+  color: white;
+  background-color: gray;
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  align-self: end;
 }
 
 .checkbox_container {
@@ -35,25 +70,70 @@ nav a:hover {
   align-items: center;
 }
 
-.nav_container {
-  display: flex;
-  background-color: gray;
-  gap: 20px;
+#display_container {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+  grid-gap: 30px;
+  justify-content: center;
+
+  margin: 10px 10px 20px;
 }
 
-.flex_container {
+.cat_display {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
+  flex-direction: column;
+
+  border: 2px solid black;
+  border-radius: 8%;
+  padding: 5px 5px 5px;
+  background-color: lightgray;
 }
 
-.form_label {
+.cat_display img {
+  width: 8vw;
+  height: 8vw;
+  border-radius: 8%;
+}
+
+.cat_name {
+  font-weight: bold;
+  font-size: 1vw;
+  text-align: center;
+}
+
+.details_container {
+  display: inline-flex;
+  gap: 25px;
+
+  margin: 25px;
+}
+
+.details_container > img {
+  border: 2px solid black;
+  border-radius: 5%;
+}
+
+.details_container h2 {
   font-size: 18pt;
 }
 
-figure {
-  height: 300px;
-  box-sizing: border-box;
-  flex: 0 1 15%;
+.details_container p {
+  font-size: 14pt;
+}
+
+#search_container {
+  display: flex;
+  justify-content: center;
+}
+
+#search_container form {
+  border: 2px solid black;
+  border-radius: 5%;
+  padding: 15px 5px 15px;
+
+  background-color: lightgray;
+}
+
+#search_container label {
+  font-size: 14pt;
 }
