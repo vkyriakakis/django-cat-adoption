@@ -54,9 +54,9 @@ class DetailsViewTests(TestCase):
 		self.assertContains(response, "Male")
 		self.assertContains(response, "White")
 
-		self.assertContains(response, "Vaccinated")
-		self.assertContains(response, "Sterilized")
-		self.assertNotContains(response, "House-trained")
+		self.assertContains(response, "Vaccinated: Yes")
+		self.assertContains(response, "Sterilized: Yes")
+		self.assertContains(response, "House-trained: No")
 
 	def test_no_adopt_for_anon_user(self):
 		"""

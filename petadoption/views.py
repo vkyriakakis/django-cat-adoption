@@ -7,4 +7,6 @@ class IndexView(generic.ListView):
     template_name = "index.html"
 
     def get_queryset(self):
-        return Cat.objects.exclude(is_adopted=True).all()
+        # Show only the first 8 cats, so that the adoptee
+        # will get a small taste in the index
+        return Cat.objects.exclude(is_adopted=True).all()[:8]

@@ -13,4 +13,3 @@ def mark_other_adoptions_as_rejected(sender, instance, created, **kwargs):
         AdoptionRequest.objects.filter(cat=instance.cat) \
                                .exclude(id=instance.id) \
                                .update(status=AdoptionRequest.Status.REJECTED)
-

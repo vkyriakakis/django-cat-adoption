@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="account_container">
+    <div class="account_form">
+        <p>Submit your personal info:</p>
+
+        {{ form.non_field_errors }}
+
+        <form method="post" action="{% url 'accounts:registration' %}">
+            {% csrf_token %}
+            <table>
+                <tbody>
+                    {% for field in form %}
+                        <tr>
+                            <td>{{ field.label_tag }}</td>
+                            <td>{{ field }}</td>
+                        </tr>
+
+                        {% if field.errors %}
+                            <tr>
+                                <td colspan="2">{{ field.errors }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

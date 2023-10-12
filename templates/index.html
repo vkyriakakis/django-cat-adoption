@@ -2,7 +2,12 @@
 
 {% block content %}
 <h1 style="text-align:center;">
-	Welcome to our site. You can adopt cats here!
+	This is a cat adoption website. Give them the home they deserve!
 </h1>
+<br>
+<h2 style="text-align:center;">
+	You can find cats such as these here:
+</h2>
+
 {% include "search/cat_display.html" with cat_list=cat_list %}
 {% endblock %}

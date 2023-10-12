@@ -39,9 +39,9 @@ nav {
 }
 
 nav a {
-  color: white;
+  color: black;
   font-size: 18pt;
-  background-color: gray;
+  background-color: rgb(108, 169, 185);
   border-radius: 15%;
 
   padding: 20px;
@@ -51,15 +51,14 @@ nav a {
 }
 
 nav a:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(127, 203, 222);
 }
 
 footer {
   grid-area: footer;
 
-  color: white;
-  background-color: gray;
+  color: black;
+  background-color: rgb(108, 169, 185);
 
   padding-top: 15px;
   padding-bottom: 15px;
@@ -86,8 +85,8 @@ footer {
   display: flex;
   flex-direction: column;
 
-  background-color: gray;
-  color: white;
+  background-color: rgb(108, 169, 185);
+  color: black;
 
   border: 2px solid black;
   border-radius: 8%;
@@ -95,8 +94,7 @@ footer {
 }
 
 .cat_display:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(127, 203, 222);
 }
 
 .cat_display img {
@@ -135,9 +133,8 @@ footer {
   border: none;
   border-radius: 15%;
 
-  background-color: gray;
-
-  color: white;
+  background-color: rgb(108, 169, 185);
+  color: black;
   font-size: 20pt;
 
   padding: 15px 30px 15px;
@@ -145,8 +142,7 @@ footer {
 }
 
 #details_container input[type=submit]:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(127, 203, 222);
 }
 
 #search_container {
@@ -159,7 +155,7 @@ footer {
   border-radius: 5%;
   padding: 15px 5px 15px;
 
-  background-color: lightgray;
+  background-color: rgb(186, 214, 222);
 }
 
 #search_container label {
@@ -170,9 +166,9 @@ footer {
   border: 2pt solid black;
   border-radius: 15%;
 
-  background-color: gray;
+  background-color: rgb(108, 169, 185);
 
-  color: white;
+  color: black;
   font-size: 11pt;
 
   padding: 5px 8px 5px;
@@ -180,28 +176,37 @@ footer {
 }
 
 #search_container button:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(127, 203, 222);
 }
 
 .account_container {
-  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
 }
 
-.account_container input[type=submit] {
-  border: none;
+.account_form {
+  border: 2px solid black;
+  border-radius: 5%;
+  padding: 15px 5px 15px;
+
+  background-color: rgb(186, 214, 222);
+}
+
+.account_form input[type=submit] {
+  border: 2px solid black;
   border-radius: 15%;
 
-  background-color: gray;
+  background-color: rgb(108, 169, 185);
 
-  color: white;
-  font-size: 15pt;
+  color: black;
+  font-size: 13pt;
 
   padding: 5px 10px 5px;
   cursor: pointer;
 }
 
 .account_container input[type=submit]:hover {
-  background-color: lightgray;
-  color: black;
+  background-color: rgb(127, 203, 222);
 }
