@@ -46,10 +46,13 @@ nav a {
 
   padding: 20px;
   margin-bottom: 20px;
+
+  text-decoration: none;
 }
 
 nav a:hover {
   background-color: lightgray;
+  color: black;
 }
 
 footer {
@@ -83,10 +86,17 @@ footer {
   display: flex;
   flex-direction: column;
 
+  background-color: gray;
+  color: white;
+
   border: 2px solid black;
   border-radius: 8%;
   padding: 5px 5px 5px;
+}
+
+.cat_display:hover {
   background-color: lightgray;
+  color: black;
 }
 
 .cat_display img {
@@ -101,24 +111,42 @@ footer {
   text-align: center;
 }
 
-.details_container {
+#details_container {
   display: inline-flex;
   gap: 25px;
 
   margin: 25px;
 }
 
-.details_container > img {
+#details_container > img {
   border: 2px solid black;
   border-radius: 5%;
 }
 
-.details_container h2 {
+#details_container h2 {
   font-size: 18pt;
 }
 
-.details_container p {
+#details_container p {
   font-size: 14pt;
+}
+
+#details_container input[type=submit] {
+  border: none;
+  border-radius: 15%;
+
+  background-color: gray;
+
+  color: white;
+  font-size: 20pt;
+
+  padding: 15px 30px 15px;
+  cursor: pointer;
+}
+
+#details_container input[type=submit]:hover {
+  background-color: lightgray;
+  color: black;
 }
 
 #search_container {
@@ -136,4 +164,44 @@ footer {
 
 #search_container label {
   font-size: 14pt;
+}
+
+#search_container button {
+  border: 2pt solid black;
+  border-radius: 15%;
+
+  background-color: gray;
+
+  color: white;
+  font-size: 11pt;
+
+  padding: 5px 8px 5px;
+  cursor: pointer;
+}
+
+#search_container button:hover {
+  background-color: lightgray;
+  color: black;
+}
+
+.account_container {
+  margin-left: 10px;
+}
+
+.account_container input[type=submit] {
+  border: none;
+  border-radius: 15%;
+
+  background-color: gray;
+
+  color: white;
+  font-size: 15pt;
+
+  padding: 5px 10px 5px;
+  cursor: pointer;
+}
+
+.account_container input[type=submit]:hover {
+  background-color: lightgray;
+  color: black;
 }

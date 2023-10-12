@@ -2,27 +2,31 @@
 
 {% block content %}
 
-{{ form.non_field_errors }}
+<div id="account_container">
+    <p>Submit your personal info:</p>
 
-<form method="post" action="{% url 'registration' %}">
-    {% csrf_token %}
-    <table>
-        <tbody>
-            {% for field in form %}
-                <tr>
-                    <td>{{ field.label_tag }}</td>
-                    <td>{{ field }}</td>
-                </tr>
+    {{ form.non_field_errors }}
 
-                {% if field.errors %}
+    <form method="post" action="{% url 'registration' %}">
+        {% csrf_token %}
+        <table>
+            <tbody>
+                {% for field in form %}
                     <tr>
-                        <td colspan="2">{{ field.errors }}</td>
+                        <td>{{ field.label_tag }}</td>
+                        <td>{{ field }}</td>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <input type="submit" value="Submit">
-</form>
+
+                    {% if field.errors %}
+                        <tr>
+                            <td colspan="2">{{ field.errors }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
 {% endblock %}
