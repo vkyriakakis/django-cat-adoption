@@ -210,3 +210,57 @@ footer {
 .account_container input[type=submit]:hover {
   background-color: rgb(127, 203, 222);
 }
+
+.adoption_container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 20px;
+
+  margin-top: 50px;
+}
+
+.adoption_container th {
+  padding-right: 20px;
+}
+
+.adoption_container th:last-child {
+  padding-right: 0px;
+}
+
+.adoption_container td {
+  padding-right: 20px;
+}
+
+.adoption_container td:last-child {
+  padding-right: 0px;
+}
+
+.adoption_container div {
+  background-color: rgb(186, 214, 222);
+
+  border: 2px solid black;
+  border-radius: 15px;
+
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+}
+
+.adoption_container input[type=submit] {
+  border: 2px solid black;
+  border-radius: 8px;
+
+  background-color: rgb(108, 169, 185);
+
+  color: black;
+  font-size: 13pt;
+
+  padding: 5px 10px 5px;
+  cursor: pointer;
+}
+
+
+.adoption_container input[type=submit]:hover {
+  background-color: rgb(127, 203, 222);
+}
