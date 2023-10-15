@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="details_container">
+	<div id="adopted_image_container">
+		{% load static %}
+		<img src="{% static 'images/cat_frame.png' %}" width=850px height=600px alt="{{ cat.name }}">
+	</div>
+
+	<div id="adopted_cat_info">
+		<h2>{{ cat.name }}</h2>
+
+		<p>
+			Sex: {{ cat.get_sex_display }}<br> 
+			Age: {{ cat.get_age_display }}<br>
+			Color: {{ cat.get_color_display }}<br>
+		</p>
+
+		<p>
+			Vaccinated:
+			{% if cat.is_vaccinated %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+			
+			Sterilized:
+			{% if cat.is_sterilized %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+
+			House-trained:
+			{% if cat.is_house_trained %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			<br>
+		</p>
+
+		<h2>Come to the shelter and receive your pet!</h2>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+window.onload = (event) => {
+    set_cat_image();
+};
+
+function set_cat_image() {
+	var image_container = document.getElementById("adopted_image_container");
+
+	image_container.style.backgroundImage = "url('{{ cat.image.url }}')";
+}
+
+{% endblock %}

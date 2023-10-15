@@ -1,3 +1,9 @@
+:root {
+  --clickable-color: rgb(108, 169, 185);
+  --hover-color: rgb(127, 203, 222);
+  --form-color: rgb(186, 214, 222);
+}
+
 body {
   background-repeat: repeat;
   background-attachment: fixed; 
@@ -26,8 +32,7 @@ main {
 }
 
 h1 {
-  font-family: Arial;
-  font-size: 300%;
+  font-size: 200%;
 }
 
 nav {
@@ -41,7 +46,9 @@ nav {
 nav a {
   color: black;
   font-size: 18pt;
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
+
+  border: 2pt solid black;
   border-radius: 15%;
 
   padding: 20px;
@@ -51,14 +58,14 @@ nav a {
 }
 
 nav a:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
 }
 
 footer {
   grid-area: footer;
 
   color: black;
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
 
   padding-top: 15px;
   padding-bottom: 15px;
@@ -85,7 +92,7 @@ footer {
   display: flex;
   flex-direction: column;
 
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
   color: black;
 
   border: 2px solid black;
@@ -94,7 +101,7 @@ footer {
 }
 
 .cat_display:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
 }
 
 .cat_display img {
@@ -130,10 +137,10 @@ footer {
 }
 
 #details_container input[type=submit] {
-  border: none;
+  border: 2pt solid black;
   border-radius: 15%;
 
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
   color: black;
   font-size: 20pt;
 
@@ -142,7 +149,17 @@ footer {
 }
 
 #details_container input[type=submit]:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
+}
+
+#adopted_image_container {
+  background-repeat: no-repeat;
+  background-position: 50% 55%;
+  background-size: 420px 420px;
+}
+
+#adopted_cat_info {
+  margin-top: 20px;
 }
 
 #search_container {
@@ -155,7 +172,7 @@ footer {
   border-radius: 5%;
   padding: 15px 5px 15px;
 
-  background-color: rgb(186, 214, 222);
+  background-color: var(--form-color);
 }
 
 #search_container label {
@@ -166,7 +183,7 @@ footer {
   border: 2pt solid black;
   border-radius: 15%;
 
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
 
   color: black;
   font-size: 11pt;
@@ -176,7 +193,7 @@ footer {
 }
 
 #search_container button:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
 }
 
 .account_container {
@@ -191,14 +208,14 @@ footer {
   border-radius: 5%;
   padding: 15px 5px 15px;
 
-  background-color: rgb(186, 214, 222);
+  background-color: var(--form-color);
 }
 
 .account_form input[type=submit] {
   border: 2px solid black;
   border-radius: 15%;
 
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
 
   color: black;
   font-size: 13pt;
@@ -208,7 +225,7 @@ footer {
 }
 
 .account_container input[type=submit]:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
 }
 
 .adoption_container {
@@ -237,7 +254,7 @@ footer {
 }
 
 .adoption_container div {
-  background-color: rgb(186, 214, 222);
+  background-color: var(--form-color);
 
   border: 2px solid black;
   border-radius: 15px;
@@ -251,7 +268,7 @@ footer {
   border: 2px solid black;
   border-radius: 8px;
 
-  background-color: rgb(108, 169, 185);
+  background-color: var(--clickable-color);
 
   color: black;
   font-size: 13pt;
@@ -262,5 +279,5 @@ footer {
 
 
 .adoption_container input[type=submit]:hover {
-  background-color: rgb(127, 203, 222);
+  background-color: var(--hover-color);
 }

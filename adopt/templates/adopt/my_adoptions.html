@@ -18,7 +18,7 @@
 					<tbody>
 						{% for request in approved_list %}
 							<tr>
-								<td>{{ request.cat.name }}</td>
+								<td><a href="{% url 'cats:adopted_detail' request.cat.id %}">{{ request.cat.name }}</a></td>
 								<td>{{ request.datetime }}</td>
 							</tr>
 						{% endfor %}
