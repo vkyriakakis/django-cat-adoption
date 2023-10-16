@@ -128,7 +128,7 @@ class RequestAdoptionViewTest(TestCase):
 
 		response = self.client.post(reverse("adopt:adopt", kwargs={'cat_id':1}))
 
-		self.assertRedirects(response, reverse("login") + "?next=" + reverse("adopt:adopt", kwargs={'cat_id':1}))
+		self.assertRedirects(response, reverse("accounts:login") + "?next=" + reverse("adopt:adopt", kwargs={'cat_id':1}))
 
 	def test_get_instead_of_post(self):
 		"""
@@ -186,7 +186,7 @@ class DeleteAdoptionViewTest(TestCase):
 
 		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "2"})
 
-		self.assertRedirects(response, reverse("login") + "?next=" + reverse("adopt:delete_adoption"))
+		self.assertRedirects(response, reverse("accounts:login") + "?next=" + reverse("adopt:delete_adoption"))
 
 	def test_get_instead_of_post(self):
 		"""

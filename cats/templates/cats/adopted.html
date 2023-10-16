@@ -18,27 +18,24 @@
 		</p>
 
 		<p>
-			Vaccinated:
 			{% if cat.is_vaccinated %}
-				Yes
+				Vaccinated: Yes
 			{% else %}
-				No
+				Vaccinated: No
 			{% endif %}
 			<br>
 			
-			Sterilized:
 			{% if cat.is_sterilized %}
-				Yes
+				Sterilized: Yes
 			{% else %}
-				No
+				Sterilized: No
 			{% endif %}
 			<br>
 
-			House-trained:
 			{% if cat.is_house_trained %}
-				Yes
+				House-trained: Yes
 			{% else %}
-				No
+				House-trained: No
 			{% endif %}
 			<br>
 		</p>
