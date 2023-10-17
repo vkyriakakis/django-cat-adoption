@@ -45,7 +45,6 @@ and includes functionality such as:
   
 <img src="screenshots/adopted_details.png">
 
-
 ## Staff-side
 
 Staff users can login to the admin page ```localhost:8000/admin``` and 
