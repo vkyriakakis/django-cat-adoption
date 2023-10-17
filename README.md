@@ -18,6 +18,18 @@ python manage.py test
 
 ## User-side
 
+The part of the site intended for ordinary users (adopters) is straightforward
+and includes functionality such as:
+
+- Registration & Authentication
+- Searching for cats based on a number of criteria such as age, sex or color
+- Viewing the details page for a cat
+- Placing an adoption request for a cat
+- Viewing the adoption requests, which might be pending, approved or rejected
+- Viewing a special details page for cat that has been adopted by the user
+
+<h1>TEST</h1>
+
 ## Staff-side
 
 ## Admin-side
