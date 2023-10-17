@@ -28,8 +28,6 @@ and includes functionality such as:
 - Viewing the adoption requests, which might be pending, approved or rejected
 - Viewing a special details page for cat that has been adopted by the user
 
-<h1>TEST</h1>
-
 ## Staff-side
 
 ## Admin-side
