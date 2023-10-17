@@ -50,11 +50,24 @@ Password: abojus112
 ```
 to test these functions yourself.
 
+<img src="screenshots/staff_overview.png" style="height:85%;width:85%">
+
 A staff user can:
 
 - Add a new cat
+<img src="screenshots/add_cat.png" style="height:85%;width:85%">
+
 - Change the status of an adoption request from pending to approved or rejected (once
-an adoption request for a cat by a user is approved, all other requests for the same cat from
-other users are rejected automatically)
+an adoption request for a cat by a user is approved, all other requests for the same
+cat are rejected automatically)
+<img src="screenshots/adoption_requests.png" style="height:85%;width:85%">
+<img src="screenshots/change_request_status.png" style="height:85%;width:85%">
 
 ## Admin-side
+
+The admin user has the credentials:
+```
+Username: admin
+Password: admin
+```
+and can do everything the staff users can, 
