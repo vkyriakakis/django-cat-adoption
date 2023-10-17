@@ -77,4 +77,4 @@ change their permissions.
 
 The admin can make any user into a member of the staff by adding them into the "Staff"
 group. By doing so, they will automatically be granted access to the admin page.
-<img src="screenshots/make_user_staff.png">
+<img src="screenshots/user_add_to_staff.png">
