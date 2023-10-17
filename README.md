@@ -17,19 +17,33 @@ python manage.py test
 ```
 
 ## User-side
+<img src="screenshots/index.png" style="height:85%;width:85%">
 
 The part of the site intended for ordinary users (adopters) is straightforward
 and includes functionality such as:
 
 - Registration & Authentication
-- Searching for cats based on a number of criteria such as age, sex or color
-- Viewing the details page for a cat
-- Placing an adoption request for a cat
-- Viewing the adoption requests, which might be pending, approved or rejected
-- Viewing a special details page for cat that has been adopted by the user
+<img src="screenshots/register.png" style="height:85%;width:85%">
+<img src="screenshots/login.png" style="height:85%;width:85%">
 
-<img src="screenshots/index.png" height="500px" width="800px">
+- Searching for cats based on a number of criteria such as age, sex or color
+<img src="screenshots/search.png" style="height:85%;width:85%">
+
+- Viewing the details page for a cat and placing an adoption request (via the "Adopt" button)
+<img src="screenshots/details.png" style="height:85%;width:85%">
+
+- Viewing the adoption requests, which might be pending, approved or rejected
+<img src="screenshots/adoptions.png" style="height:85%;width:85%">
+
+- Viewing a special details page for cat that has been adopted by the user
+<img src="screenshots/adopted_details.png" style="height:85%;width:85%">
+
 
 ## Staff-side
+
+Staff members can login to the admin page (localhost:8000/admin) and 
+perform most administrative actions.
+
+
 
 ## Admin-side
