@@ -41,9 +41,20 @@ and includes functionality such as:
 
 ## Staff-side
 
-Staff members can login to the admin page (localhost:8000/admin) and 
-perform most administrative actions.
+Staff users can login to the admin page ```localhost:8000/admin``` and 
+perform most administrative actions. You can use the premade staff user
+with the credentials:
+```
+Username: bot
+Password: abojus112
+```
+to test these functions yourself.
 
+A staff user can:
 
+- Add a new cat
+- Change the status of an adoption request from pending to approved or rejected (once
+an adoption request for a cat by a user is approved, all other requests for the same cat from
+other users are rejected automatically)
 
 ## Admin-side
