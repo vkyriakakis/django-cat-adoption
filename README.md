@@ -70,4 +70,11 @@ The admin user has the credentials:
 Username: admin
 Password: admin
 ```
-and can do everything the staff users can, 
+and can do everything the staff users can, but also edit user information and
+change their permissions.
+<img src="screenshots/admin_page.png" style="height:85%;width:85%">
+<img src="screenshots/user_overview.png" style="height:85%;width:85%">
+
+The admin can make any user into a member of the staff by adding them into the "Staff"
+group. By doing so, they will automatically be granted access to the admin page.
+<img src="screenshots/make_user_staff.png" style="height:85%;width:85%">
