@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cats.apps.CatsConfig',
     'adopt.apps.AdoptConfig',
     'accounts.apps.AccountsConfig',
+    'commands.apps.CommandsConfig',
 ]
 
 MIDDLEWARE = [
