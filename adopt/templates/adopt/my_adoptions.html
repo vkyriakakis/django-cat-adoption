@@ -2,8 +2,8 @@
 
 {% block content %}
 
-{% if has_requests %}
-	<div class="adoption_container">
+<div class="adoption_container">
+	{% if has_requests %}
 		<div>
 			<h3>Approved requests</h3>
 			{% if approved_list %}
@@ -30,8 +30,7 @@
 		<div>
 			<h3>Pending requests</h3>
 			{% if pending_list %}
-				<form action="{% url 'adopt:delete_adoption' %}" method="post">
-					{% csrf_token %}
+				<form>
 					<table>
 						<thead>
 							<tr>
@@ -54,7 +53,8 @@
 
 					<br>
 					
-					<input type="submit" value="Withdraw">
+					<button type="button" onclick="send_deletion_request()">Withdraw</button>
+					<div id="delete_error_msg"></div>
 				</form>
 			{% endif %}
 		</div>
@@ -83,9 +83,55 @@
 				</table>
 			{% endif %}
 		</div>
-	</div>
-{% else %}
-	<p>You haven't made any adoption requests!</p>
-{% endif %}
+	{% else %}
+		<p>You haven't made any adoption requests!</p>
+	{% endif %}
+</div>
+{% endblock %}
 
+{% block scripts %}
+
+{% csrf_token %}
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+function send_deletion_request() {
+	var ids_to_delete = [];
+	var delete_checkboxes = document.getElementsByName("to_delete");
+
+	// Get the ids to delete
+	for (const checkbox of delete_checkboxes) {
+		if (checkbox.checked)
+			ids_to_delete.push(["to_delete", checkbox.value]);
+	}
+
+	// If no requests were selected, don't send any request to
+	// the server, and instead show an error message to the user
+	if (ids_to_delete.length == 0) {
+		document.getElementById("delete_error_msg").innerHTML = "You must select some requests to delete!";
+		return;
+	}
+
+	// Post the deletion request
+	const request = new Request(
+	    "{% url 'adopt:delete_adoption' %}",
+	    {
+	    	body: new URLSearchParams(ids_to_delete),
+	        method: 'POST',
+	        headers: {'X-CSRFToken': csrftoken},
+	        mode: 'same-origin',
+	        redirect: 'follow'
+	    }
+	);
+
+	fetch(request)
+	.then(response => {
+		// Redirect to the url returned by the server
+		window.location.replace(response.url);
+    })
+    .catch(function(err) {
+        console.log(err + " url: " + url);
+    });
+}
+</script>
 {% endblock %}

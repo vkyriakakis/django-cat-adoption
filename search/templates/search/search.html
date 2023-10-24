@@ -54,6 +54,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
 
 window.onload = (event) => {
     fetch_results();
@@ -109,11 +110,8 @@ function fetch_results() {
 
 	var searchParams = new URLSearchParams(param_list);
 
-	console.log(searchParams);
-
-	fetch(`{% url 'search:results' %}?${searchParams.toString()}`)
+	fetch("{% url 'search:results' %}?" + searchParams)
 	.then(response => {
-		console.log(response);
 		return response.text();
 	})
 	.then(html => {
@@ -125,4 +123,5 @@ function fetch_results() {
 	});
 }
 
+</script>
 {% endblock %}
