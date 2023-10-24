@@ -74,7 +74,12 @@
 					<tbody>
 						{% for request in rejected_list %}
 							<tr>
-								<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
+								{% if request.cat.is_adopted %}
+									<td>{{ request.cat.name }}</td>
+								{% else %}
+									<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
+								{% endif %}
+								
 								<td>{{ request.datetime }}</td>
 								<td>{{ request.reason }}</td>
 							</tr>
