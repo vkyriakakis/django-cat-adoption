@@ -62,6 +62,30 @@ def init_database(user1_empty=True, req_rejected_test=False, req_categories_test
 
 	return req1, req2
 
+class AdoptionRequestModelTest(TestCase):
+	def test_request_exists_when_true(self):
+		"""
+		The class method test_user_request_cat should return True
+		if a request from <user> for <cat> exists, and optionally if
+		it has the correct status.
+		"""
+		init_database()
+
+		user = User.objects.get(username="testuser2")
+		cat = Cat.objects.get(name="Magous")
+
+		self.assertTrue(AdoptionRequest.request_exists(user, cat))
+
+	def test_request_exists_when_false(self):
+		"""
+		Conversely, it should return False if such a request doesn't exist.
+		"""
+		init_database()
+
+		user = User.objects.get(username="testuser")
+		cat = Cat.objects.get(name="Magous")
+
+		self.assertFalse(AdoptionRequest.request_exists(user, cat))
 
 class MyAdoptionsViewTest(TestCase):
 	def test_unauthorized_user(self):

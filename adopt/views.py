@@ -34,7 +34,6 @@ def request_adoption(request, cat_id):
 
     # Check if a request by that user for that cat already exists
     if AdoptionRequest.objects.filter(user__id=request.user.id, cat__id=cat_id).exists():
-        messages.error(request, 'You have already requested to adopt this cat!')
         return redirect("cats:detail", pk=cat_id)
 
     # Create the adoption request for the specified cat

@@ -38,10 +38,14 @@
 		</p>
 
 		{% if user.is_authenticated %}
-			<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
-				{% csrf_token %}
-				<input type="submit" value="Adopt">
-			</form>
+			{% if view.has_pending_request %}
+				<p style="color:red;">You already have a pending request for this cat!</p>
+			{% else %}
+				<form action ="{% url 'adopt:adopt' cat.id %}" method="post">
+					{% csrf_token %}
+					<input type="submit" value="Adopt">
+				</form>
+			{% endif %}
 		{% else %}
 			<p style="color:red;">You need to login before requesting to adopt a cat!</p>
 		{% endif %}

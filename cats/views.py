@@ -14,6 +14,10 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         return Cat.objects.exclude(is_adopted=True).all()
 
+    def has_pending_request(self):
+        cat = get_object_or_404(Cat, pk=self.kwargs.get("pk"))
+        return AdoptionRequest.request_exists(self.request.user, cat)
+
 class AdoptedDetailView(LoginRequiredMixin, generic.DetailView):
     model = Cat
     template_name = "cats/adopted.html"

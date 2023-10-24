@@ -116,6 +116,22 @@ class DetailsViewTests(TestCase):
 		self.assertNotContains(response, "You need to login before requesting to adopt a cat!")
 		self.assertContains(response, "<input type=\"submit\" value=\"Adopt\">")
 
+	def test_adopt_not_displays_when_pending_exists(self):
+		"""
+		If the request has a pending request for this cat, the "Adopt" button
+		should not be displayed.
+		"""
+		init_database(is_adopted_view=True)
+
+		# Authenticate the user now that we have created it
+		self.client.login(username="testuser", password="12345")
+
+		response = self.client.get(reverse("cats:detail", kwargs={'pk':2}))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "You already have a pending request for this cat!")
+		self.assertNotContains(response, "<input type=\"submit\" value=\"Adopt\">")
+
 	def test_adopted_cat_not_found(self):
 		"""
 		If a cat has been already adopted, it should not display.

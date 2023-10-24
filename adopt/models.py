@@ -22,3 +22,10 @@ class AdoptionRequest(models.Model):
 
     def __str__(self):
         return "{} wants to adopt {}!".format(self.user, self.cat.name)
+
+    def request_exists(user, cat, status=Status.PENDING):
+        """
+        This function returns True if a request by <user> for <cat>, optionally with
+        status=<status> exists
+        """
+        return AdoptionRequest.objects.filter(user=user, cat=cat, status=status).exists()
