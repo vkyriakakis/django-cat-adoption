@@ -16,6 +16,11 @@ python manage.py runserver
 python manage.py test
 ```
 
+## To reset the database to its original state after using the site:
+```
+python manage.py reset_database
+```
+
 ## User-side
 
 <img src="screenshots/index.png" style="height:70%;width:70%">
