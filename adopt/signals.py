@@ -12,4 +12,5 @@ def mark_other_adoptions_as_rejected(sender, instance, created, **kwargs):
     if instance.status == AdoptionRequest.Status.APPROVED:
         AdoptionRequest.objects.filter(cat=instance.cat) \
                                .exclude(id=instance.id) \
-                               .update(status=AdoptionRequest.Status.REJECTED)
+                               .update(status=AdoptionRequest.Status.REJECTED, \
+                                       reason="Someone else adopted the cat first :(")

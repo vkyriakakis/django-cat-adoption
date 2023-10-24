@@ -74,7 +74,7 @@
 					<tbody>
 						{% for request in rejected_list %}
 							<tr>
-								<td>{{ request.cat.name }}</td>
+								<td><a href="{% url 'cats:detail' request.cat.id %}">{{ request.cat.name }}</a></td>
 								<td>{{ request.datetime }}</td>
 								<td>{{ request.reason }}</td>
 							</tr>

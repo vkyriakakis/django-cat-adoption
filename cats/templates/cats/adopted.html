@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block scripts %}
-
+<script>
 window.onload = (event) => {
     set_cat_image();
 };
@@ -57,5 +57,5 @@ function set_cat_image() {
 
 	image_container.style.backgroundImage = "url('{{ cat.image.url }}')";
 }
-
+</script>
 {% endblock %}

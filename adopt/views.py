@@ -32,12 +32,21 @@ def request_adoption(request, cat_id):
         messages.error(request, 'Adoption requests have to be POSTed!')
         return render(request, "405.html", status=405)
 
-    # Check if a request by that user for that cat already exists
-    if AdoptionRequest.objects.filter(user__id=request.user.id, cat__id=cat_id).exists():
+    cat = Cat.objects.get(pk=cat_id)
+
+    # If the cat was already adopted by someone else, then the user
+    # can't make a request for it, and should see 404
+    if cat.is_adopted:
+        return render(request, "404.html", status=404)
+
+    # Check if a PENDING request by that user for that cat already exists,
+    # if the user only has REJECTED requests for that cat, then they can try
+    # to adopt it again
+    if AdoptionRequest.request_exists(request.user, cat):
         return redirect("cats:detail", pk=cat_id)
 
     # Create the adoption request for the specified cat
-    adoption_request = AdoptionRequest(user=request.user, cat=Cat.objects.get(pk=cat_id))
+    adoption_request = AdoptionRequest(user=request.user, cat=cat)
     adoption_request.save()
 
     # Redirect user to the "My Adoptions" page
@@ -64,9 +73,14 @@ def delete_adoption(request):
     for adoption_id in ids_to_delete:
         adoption_request = get_object_or_404(AdoptionRequest, pk=adoption_id)
 
+        # Check if the request belongs to another user
         if adoption_request.user.id != request.user.id:
             raise PermissionDenied()
 
+        # If the request isn't PENDING, it shouldn't be deleted
+        if adoption_request.status != AdoptionRequest.Status.PENDING:
+            raise PermissionDenied()
+            
         adoption_requests.append(adoption_request)
 
     # 2nd pass actually performs the deletions

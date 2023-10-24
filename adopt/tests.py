@@ -166,11 +166,12 @@ class RequestAdoptionViewTest(TestCase):
 
 		self.assertEqual(response.status_code, 405)
 
-	def test_request_already_exists(self):
+	def test_fail_pending_already_exists(self):
 		"""
 		Tests the case where an authenticated user tries to request to adopt
-		a cat that they have already requested. A new request shouldn't be created
-		and they should be redirected to the cat detail page with an error message.
+		a cat that they already have a PENDING request for. A new request shouldn't 
+		be created and they should be redirected to the cat detail page with an 
+		error message.
 		"""
 		init_database()
 
@@ -183,11 +184,11 @@ class RequestAdoptionViewTest(TestCase):
 		# Test that another request for that cat wasn't added
 		self.assertEqual(len(AdoptionRequest.objects.filter(user__id=2, cat__id=2)), 1)
 
-	def test_request_created_successfully(self):
+	def test_request_created_successfully_no_requests(self):
 		"""
 		Tests the case where an authenticated user makes an adoption request
-		successfully. They should be redirected to the "My Adoptions" page,
-		and that page should display the new request.
+		successfully when they had no requests for that cat. They should be redirected 
+		to the "My Adoptions" page, and that page should display the new request.
 		"""
 		init_database()
 
@@ -199,6 +200,71 @@ class RequestAdoptionViewTest(TestCase):
 		
 		# Also that the request was actually added to the database
 		self.assertTrue(AdoptionRequest.objects.filter(user__id=2, cat__id=1).exists())
+
+	def test_fail_cat_adopted(self):
+		"""
+		If the cat is already adopted, no adoption request should be created, and 404
+		returned to the user.
+		"""
+		init_database(req_categories_test=True)
+
+		self.client.login(username="testuser", password="12345")
+		response = self.client.post(reverse("adopt:adopt", kwargs={'cat_id':3}))
+
+		self.assertQuerySetEqual(
+            AdoptionRequest.objects.filter(user__id=1, cat__id=3),
+            [],
+            ordered=False
+		)
+		self.assertEqual(response.status_code, 404)
+
+	def test_request_created_successfully_rejected_requests(self):
+		"""
+		If the user has rejected request for that cat, they should be
+		allowed to make a new pending request.
+		"""
+		init_database(req_categories_test=True)
+
+		self.client.login(username="testuser2", password="67890")
+		response = self.client.post(reverse("adopt:adopt", kwargs={'cat_id':4}))
+
+		# Test that the user got redirected to my_adoptions
+		self.assertRedirects(response, reverse("adopt:my_adoptions"))
+
+		# Check that a new PENDING request was added to the database
+		self.assertTrue(AdoptionRequest.objects.filter(user__id=2, cat__id=4, status=AdoptionRequest.Status.PENDING))
+
+	def test_request_created_successfully_pending_someone_else(self):
+		"""
+		The user should be able to successfully request to adopt a cat, even if
+		other users have PENDING requests for it.
+		"""
+		init_database()
+
+		self.client.login(username="testuser", password="12345")
+		response = self.client.post(reverse("adopt:adopt", kwargs={'cat_id':2}))
+
+		# Test that the user got redirected to my_adoptions
+		self.assertRedirects(response, reverse("adopt:my_adoptions"))
+
+		# Check that a new PENDING request was added to the database
+		self.assertTrue(AdoptionRequest.objects.filter(user__id=1, cat__id=2, status=AdoptionRequest.Status.PENDING))
+
+	def test_request_created_successfully_rejected_someone_else(self):
+		"""
+		The user should be able to successfully request to adopt a cat, even if
+		other users have REJECTED requests for it.
+		"""
+		init_database(req_categories_test=True)
+
+		self.client.login(username="testuser", password="12345")
+		response = self.client.post(reverse("adopt:adopt", kwargs={'cat_id':4}))
+
+		# Test that the user got redirected to my_adoptions
+		self.assertRedirects(response, reverse("adopt:my_adoptions"))
+
+		# Check that a new PENDING request was added to the database
+		self.assertTrue(AdoptionRequest.objects.filter(user__id=1, cat__id=4, status=AdoptionRequest.Status.PENDING))
 
 class DeleteAdoptionViewTest(TestCase):
 	def test_unauthorized_user(self):
@@ -264,19 +330,45 @@ class DeleteAdoptionViewTest(TestCase):
 		self.assertEqual(response.status_code, 403)
 		self.assertTrue(AdoptionRequest.objects.filter(id=3).exists())
 
+	def test_request_is_approved_fail(self):
+		"""
+		If the request is APPROVED, it can't be deleted anymore. So 
+		403 - Forbidden must be returned, and the request should not be deleted. 
+		"""
+		init_database(req_categories_test=True)
+
+		self.client.login(username="testuser2", password="67890")
+		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "3"})
+
+		self.assertEqual(response.status_code, 403)
+		self.assertTrue(AdoptionRequest.objects.filter(id=3).exists())
+
+	def test_request_is_rejected_fail(self):
+		"""
+		If the request is REJECTED, it can't be deleted anymore. So 
+		403 - Forbidden must be returned, and the request should not be deleted. 
+		"""
+		init_database(req_categories_test=True)
+
+		self.client.login(username="testuser2", password="67890")
+		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "2"})
+
+		self.assertEqual(response.status_code, 403)
+		self.assertTrue(AdoptionRequest.objects.filter(id=2).exists())
+
 	def test_deletion_success(self):
 		"""
 		Tests the case where the deletion happens successfully.
 		The user should be redirected to the "My adoptions" page and
 		the adoption should have been removed from the database.
 		"""
-		init_database()
+		init_database(req_categories_test=True)
 
 		self.client.login(username="testuser2", password="67890")
-		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "2"})
+		response = self.client.post(reverse("adopt:delete_adoption"), {"to_delete": "1"})
 
 		self.assertRedirects(response, reverse("adopt:my_adoptions"))
-		self.assertFalse(AdoptionRequest.objects.filter(id=2).exists())
+		self.assertFalse(AdoptionRequest.objects.filter(id=1).exists())
 
 class AdoptionApprovedSignalsTest(TestCase):
 	def test_cat_adopted_when_request_approved(self):
@@ -311,3 +403,4 @@ class AdoptionApprovedSignalsTest(TestCase):
 
 		self.assertTrue(req1.status == AdoptionRequest.Status.APPROVED)
 		self.assertTrue(req3.status == AdoptionRequest.Status.REJECTED)
+		self.assertEqual(req3.reason, "Someone else adopted the cat first :(")
